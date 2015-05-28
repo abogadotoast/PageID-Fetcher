@@ -1,0 +1,38 @@
+{
+  // Required
+  "manifest_version": 2,
+  "name": "PageID Fetcher",
+  "version": "1.0",
+
+  // Recommended
+  "description": "This extension fetches pageIDs from UNR pages in order to make editing easier.",
+
+  "commands": 
+  {
+    "browser_action":
+    {
+      "suggested_key": 
+      {
+        "default": "Ctrl+Shift+Z",
+        "mac": "Command+Shift+Z"
+      },
+      "description": "Toggles a copy and paste prompt for XIDs."
+    }
+  },
+  // Pick one (or none)
+  "browser_action": 
+  {
+    "default_title": "PageID Fetcher",
+    "default_icon": "pageid19px2.png",
+    "default_popup": "pageid.html"
+  },
+
+"content_scripts": 
+  [
+    {
+      "matches": ["http://www.unr.edu/*"],
+      "css": ["mystyles.css"],
+      "js": ["jquery-2.1.4.min.js", "pageidsearch.js"]
+    }
+  ]
+}
