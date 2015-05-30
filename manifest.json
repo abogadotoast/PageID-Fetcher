@@ -12,7 +12,7 @@
     {
       "matches": ["http://www.unr.edu/*"],
       "css": ["mystyles.css"],
-      "js": ["jquery-2.1.4.min.js", "pageidsearch.js"]
+      "js": ["pageidsearch.js"]
     }
   ],
   
