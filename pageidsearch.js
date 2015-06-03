@@ -8,8 +8,6 @@ var bodyID = document.getElementsByTagName("body")[0].id;
 // This is an array which stores keypresses.
 var keys = [];
 
-
-
 // Trigger copy to clipboard upon hotkey.
 function copyToClipboard(bodyID)
 {
@@ -23,17 +21,6 @@ function keysPressed(e)
   // store an entry for every key pressed
   keys[e.keyCode] = true;
 
-  
-  // Ctrl + Shift + Z
-  /*
-  if(keys[17] && keys[16] && keys[90])
-  {
-  // do something - interestingly enough, this works without needing to be called outside of the function.
-  copyToClipboard(bodyID);
-  // prevent default browser behavior
-  e.preventDefault();  
-  }
-  */
   // Ctrl + Shift + Z
   if(keys[17] && keys[16] && keys[90])
   {
