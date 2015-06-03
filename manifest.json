@@ -23,6 +23,12 @@
     "default_title": "PageID Fetcher",
     "default_icon": "pageid4-19px.png",
     "default_popup": "pageid.html"
-  }
+  },
 
+  "icons":
+  {
+    "16": "n-icon16.png",
+    "48": "n-icon48.png",
+    "128": "n-icon128.png"
+  }
 }
