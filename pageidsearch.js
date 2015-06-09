@@ -1,7 +1,3 @@
-// Key listeners for dealing with the keyboard.
-window.addEventListener("keydown", keysPressed, false);
-window.addEventListener("keyup", keysReleased, false);
-
 // Retrieves the xID found on UNR pages (the manifest controls page access).
 var bodyID = document.getElementsByTagName("body")[0].id;
 // This is an array which stores keypresses.
@@ -9,25 +5,47 @@ var keys = [];
 
 // retrieves the header of pages so that they are available for parsing
 var currentLocation = window.location.href.toString().toLowerCase();
+
+// true or false booleans
+var boolNevadaToday = false;
+
 console.log(currentLocation);
 // checks to see whether or not we're on most unr.edu pages except the one with nevada today.
 mainController(currentLocation);
 // checks to see if on a nevadatoday page and fills fullHeader with a massive string - this makes the addon more responsive on pages that don't require it.
-nevadaTodayController(currentLocation);
+boolNevadaToday = nevadaTodayController(currentLocation);
+
+
 
 // Controllers
 function mainController(currentLocation)
 {
-  if(currentLocation !="http://www.unr.edu/nevada-today")
+  // As long as the current location isn't at nevada-today, we will load the event handlers that trigger the popup.
+  if(currentLocation != "http://www.unr.edu/nevada-today")
   {
-
+  window.addEventListener("keydown", keysPressed, false);
+  window.addEventListener("keyup", keysReleased, false);
+  }
+}
+// Triggered upon loading nevadaToday, so that the slower pageID method is called
+function nevadaTodayController(currentLocation)
+{
+  console.log(currentLocation);
+  if(currentLocation==="http://www.unr.edu/nevada-today")
+  {
+  console.log("this works");
+  var fullHeader = document.getElementsByTagName("head")[0].innerHTML;
+  // once retrieved, this parses the fullHeader to fetch the PageID:
+  var newBodyID = slowXIDFetch(fullHeader);
+  bodyID = newBodyID;
+  window.addEventListener("keydown", keysPressed, false);
+  window.addEventListener("keyup", keysReleased, false);
   }
 }
 
 // Trigger copy to clipboard upon hotkey.
 function copyToClipboard(bodyID)
 {
-	// Prompts a window with the XID.
 	window.prompt("Copy to clipboard: Ctrl+C, Enter", bodyID);
 }
 
@@ -41,6 +59,7 @@ function keysPressed(e)
   if(keys[17] && keys[16] && keys[90])
   {
     // do something - interestingly enough, this works without needing to be called outside of the function.
+    // if on a normal UNR page
     copyToClipboard(bodyID);
     // prevent default browser behavior
     e.preventDefault();
@@ -58,18 +77,7 @@ function keysReleased(e)
   keys[e.keyCode] = false;
 }
 
-// Triggered upon loading nevadaToday, so that the slower pageID method is called
-function nevadaTodayController(currentLocation)
-{
-  console.log(currentLocation);
-  if(currentLocation==="http://www.unr.edu/nevada-today")
-  {
-  console.log("this works");
-  var fullHeader = document.getElementsByTagName("head")[0].innerHTML;
-  // once retrieved, this parses the fullHeader to fetch the PageID:
-  slowXIDFetch(fullHeader);
-  }
-}
+
 
 
 // Function that parses a header in HTML and returns an XID. 
@@ -113,9 +121,9 @@ function slowXIDFetch(fullHeader)
         // turns the array of character into a string  and also removes the commas
         stringSlowPageID = slowPageID.join('');
         console.log(stringSlowPageID);
-
+         // then return stringSlowPageID so that it's the new bodyID
+        return stringSlowPageID;
       } 
-
   }
   
   // check to see if "pageID" is there
