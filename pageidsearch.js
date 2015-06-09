@@ -4,12 +4,15 @@ var bodyID = document.getElementsByTagName("body")[0].id;
 var keys = [];
 
 // retrieves the header of pages so that they are available for parsing
-var currentLocation = window.location.href.toString().toLowerCase();
+var currentLocation = window.location.pathname.toString().toLowerCase();
 
+// if it includes NevadaToday, set the current location to NevadaToday. This is to make sure all URLS that contain nevada-today are captured by the slow XID parser.
+if(currentLocation.includes("/nevada-today"))
+{
+  currentLocation = "/nevada-today";
+}
 // true or false booleans
 var boolNevadaToday = false;
-
-console.log(currentLocation);
 // checks to see whether or not we're on most unr.edu pages except the one with nevada today.
 mainController(currentLocation);
 // checks to see if on a nevadatoday page and fills fullHeader with a massive string - this makes the addon more responsive on pages that don't require it.
@@ -21,7 +24,7 @@ boolNevadaToday = nevadaTodayController(currentLocation);
 function mainController(currentLocation)
 {
   // As long as the current location isn't at nevada-today, we will load the event handlers that trigger the popup.
-  if(currentLocation != "http://www.unr.edu/nevada-today")
+  if(currentLocation != "/nevada-today")
   {
   window.addEventListener("keydown", keysPressed, false);
   window.addEventListener("keyup", keysReleased, false);
@@ -30,10 +33,8 @@ function mainController(currentLocation)
 // Triggered upon loading nevadaToday, so that the slower pageID method is called
 function nevadaTodayController(currentLocation)
 {
-  console.log(currentLocation);
-  if(currentLocation==="http://www.unr.edu/nevada-today")
+  if(currentLocation==="/nevada-today")
   {
-  console.log("this works");
   var fullHeader = document.getElementsByTagName("head")[0].innerHTML;
   // once retrieved, this parses the fullHeader to fetch the PageID:
   var newBodyID = slowXIDFetch(fullHeader);
@@ -111,7 +112,6 @@ function slowXIDFetch(fullHeader)
         {
           // log what is stored at that element
           slowPageID[arraySize] = fullHeader[start+count];
-          console.log(fullHeader[start+count]);
           // keep counting up until we hit endOfXID
           count++;
           // move the arraysize up by one to store the next character there.
@@ -120,13 +120,9 @@ function slowXIDFetch(fullHeader)
 
         // turns the array of character into a string  and also removes the commas
         stringSlowPageID = slowPageID.join('');
-        console.log(stringSlowPageID);
          // then return stringSlowPageID so that it's the new bodyID
         return stringSlowPageID;
       } 
   }
-  
-  // check to see if "pageID" is there
 
-  // once "pageID" is found, send a console.log out
 }
