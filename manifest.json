@@ -2,7 +2,7 @@
   // Required
   "manifest_version": 2,
   "name": "PageID Fetcher",
-  "version": "1.2",
+  "version": "1.2.1",
 
   // Recommended
   "description": "This extension fetches pageIDs from UNR pages in order to make editing easier.",
@@ -10,7 +10,7 @@
 "content_scripts": 
   [
     {
-      "matches": ["http://www.unr.edu/*"],
+      "matches": ["http://*.unr.edu/*","https://*.unr.edu/*"],
       "css": ["mystyles.css"],
       "js": ["pageidsearch.js"]
     }
